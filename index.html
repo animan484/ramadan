@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>የረመዳን ስጦታ</title>
+    <style>
+        :root {
+            --gold: #d4af37;
+            --dark-green: #064e3b;
+            --light-cream: #fffbeb;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--dark-green);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100dvh;
+            color: var(--light-cream);
+        }
+
+        /* --- አኒሜሽን ያላቸው ፎቶዎች ማስቀመጫ (Borders) --- */
+        .moving-images {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .side-img {
+            position: absolute;
+            width: 80px; /* የፎቶው ስፋት */
+            opacity: 0.7;
+        }
+
+        /* ወደ ላይ የሚበሩ ፎቶዎች አኒሜሽን */
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* ፎቶዎቹ በተለያዩ ቦታዎች እንዲወጡ */
+        .img-1 { left: 5%; animation: floatUp 10s infinite; }
+        .img-2 { left: 25%; animation: floatUp 15s infinite 2s; }
+        .img-3 { left: 45%; animation: floatUp 12s infinite 1s; }
+        .img-4 { left: 65%; animation: floatUp 18s infinite 3s; }
+        .img-5 { left: 85%; animation: floatUp 14s infinite; }
+
+        /* --- ዋናው ማሳያ (Main Card) --- */
+        .container {
+            text-align: center;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 2px solid var(--gold);
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+            max-width: 90%;
+        }
+
+        .gift-icon {
+            font-size: 80px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            display: inline-block;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-20px);}
+            60% {transform: translateY(-10px);}
+        }
+
+        .gift-icon:hover { transform: scale(1.2); }
+
+        h1 { color: var(--gold); font-size: 2.5rem; }
+        
+        #messageArea { display: none; }
+
+        input {
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            width: 80%;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        button {
+    background: linear-gradient(135deg, #d4af37 0%, #f1d57e 100%);
+    color: #064e3b; /* Dark green text on gold button looks very 'Royal' */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    border-radius: 50px;
+    border: none;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+        .ramadan-text {
+            font-size: 2rem;
+            line-height: 1.6;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="moving-images">
+        <img src="r1.png" class="side-img img-1" alt="Ramadan">
+        <img src="r2.png" class="side-img img-2" alt="Ramadan">
+        <img src="r3.png" class="side-img img-3" alt="Ramadan">
+        <img src="r4.png" class="side-img img-4" alt="Ramadan">
+        <img src="r5.png" class="side-img img-5" alt="Ramadan">
+        </div>
+
+    <div class="container">
+        <div id="setupArea">
+            <div class="gift-icon" onclick="showInput()">🎁</div>
+            <h1>ልዩ የረመዳን ስጦታ አለዎት!</h1>
+            <p>ለመክፈት ስጦታውን ይጫኑ</p>
+        </div>
+
+        <div id="inputArea" style="display:none;">
+            <h2>እባክዎን ስምዎን ያስገቡ</h2>
+            <input type="text" id="userName" placeholder="ስም እዚህ ይፃፉ...">
+            <br>
+            <button onclick="generateGreeting()">አሳይ</button>
+        </div>
+
+        <div id="messageArea">
+            <h1 id="displayName"></h1>
+            <div class="ramadan-text">
+                🌙 ረመዳን ሙባረክ! 🌙<br>
+                አላህ ፆሙንና ዱዓውን ይቀበለን።
+            </div>
+            <p>መልካም የረመዳን ወር ይሁንልዎ!</p>
+        </div>
+    </div>
+
+    <audio id="bgMusic" loop>
+        <source src="Ramadan.mp3" type="audio/mpeg">
+        የእርስዎ ብሮውዘር ኦዲዮ አይደግፍም።
+    </audio>
+
+    <script>
+        const bgMusic = document.getElementById('bgMusic');
+
+        // ስጦታው ሲነካ ስም እንዲጠይቅ
+        function showInput() {
+            document.getElementById('setupArea').style.display = 'none';
+            document.getElementById('inputArea').style.display = 'block';
+        }
+
+        // ስሙ ሲገባ መልዕክቱን እና ሙዚቃውን የሚከፍት
+        function generateGreeting() {
+            const name = document.getElementById('userName').value;
+            if (name.trim() === "") {
+                alert("እባክዎ ስምዎን ያስገቡ!");
+                return;
+            }
+
+            document.getElementById('inputArea').style.display = 'none';
+            document.getElementById('messageArea').style.display = 'block';
+            document.getElementById('displayName').innerText = "ውድ " + name;
+
+            // ነሺዳውን ያስጀምራል
+            bgMusic.play().catch(error => {
+                console.log("Audio play failed: ", error);
+            });
+        }
+        // This prevents the keyboard from squashing the layout on Android/Samsung
+if (/Android/.test(navigator.userAgent)) {
+   window.addEventListener("resize", function() {
+      if (document.activeElement.tagName == "INPUT") {
+         window.setTimeout(function() {
+            document.activeElement.scrollIntoView({ behavior: "smooth" });
+         }, 0);
+      }
+   });
+}
+    </script>
+</body>
+</html>
