@@ -2,7 +2,7 @@
 <html lang="am">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=Yes">
     <title>የረመዳን ስጦታ</title>
     <style>
         :root {
@@ -33,37 +33,54 @@
             z-index: 1;
         }
 
-        .side-img {
-            position: absolute;
-            width: 80px; /* የፎቶው ስፋት */
-            opacity: 0.7;
-        }
+        /* --- ዳር ዳር የሚዞሩ ፎቶዎች --- */
+.side-img {
+    position: absolute;
+    width: 60px; /* የፎቶው ስፋት */
+    opacity: 1;
+    z-index: 5;
+    /* አኒሜሽኑ እዚህ ጋር ይገለጻል */
+    animation: borderLoop 20s linear infinite;
+}
 
-        /* ወደ ላይ የሚበሩ ፎቶዎች አኒሜሽን */
-        @keyframes floatUp {
-            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-            50% { opacity: 1; }
-            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
-        }
+/* እያንዳንዱ ፎቶ በተለያየ ሰከንድ እንዲነሳ በማድረግ ቅደም ተከተል ማስያዝ (10 ፎቶ ካለህ እስከ 10 ቀጥል) */
+.img-1 { animation-delay: 0s; }
+.img-2 { animation-delay: -2s; }
+.img-3 { animation-delay: -4s; }
+.img-4 { animation-delay: -6s; }
+.img-5 { animation-delay: -8s; }
+.img-6 { animation-delay: -10s; }
+.img-7 { animation-delay: -12s; }
+.img-8 { animation-delay: -14s; }
+.img-9 { animation-delay: -16s; }
+.img-10 { animation-delay: -18s; }
 
-        /* ፎቶዎቹ በተለያዩ ቦታዎች እንዲወጡ */
-        .img-1 { left: 5%; animation: floatUp 10s infinite; }
-        .img-2 { left: 25%; animation: floatUp 15s infinite 2s; }
-        .img-3 { left: 45%; animation: floatUp 12s infinite 1s; }
-        .img-4 { left: 65%; animation: floatUp 18s infinite 3s; }
-        .img-5 { left: 85%; animation: floatUp 14s infinite; }
+/* ዙሪያውን እንዲዞሩ የሚያደርገው ዋናው አኒሜሽን */
+@keyframes borderLoop {
+    0%   { top: 0; left: 0; }             /* ከላይ በግራ */
+    25%  { top: 0; left: calc(100% - 60px); } /* ወደ ላይ ቀኝ */
+    50%  { top: calc(100% - 60px); left: calc(100% - 60px); } /* ወደ ታች ቀኝ */
+    75%  { top: calc(100% - 60px); left: 0; } /* ወደ ታች ግራ */
+    100% { top: 0; left: 0; }             /* ተመልሶ መጀመሪያ ቦታ */
+}
 
         /* --- ዋናው ማሳያ (Main Card) --- */
         .container {
             text-align: center;
             z-index: 10;
             background: rgba(255, 255, 255, 0.1);
-            padding: 40px;
+            padding: 30px;
             border-radius: 20px;
             backdrop-filter: blur(10px);
             border: 2px solid var(--gold);
             box-shadow: 0 0 30px rgba(0,0,0,0.5);
             max-width: 90%;
+            margin-top: 100px;
+            margin-left: 20px;
+            margin-right: 20px;
+            max-height: 70%;
+            align-items: center;
+            margin-bottom: 100px;
         }
 
         .gift-icon {
@@ -96,14 +113,17 @@
         }
 
         button {
-    background: linear-gradient(135deg, #d4af37 0%, #f1d57e 100%);
-    color: #064e3b; /* Dark green text on gold button looks very 'Royal' */
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-    border-radius: 50px;
+    background-color: var(--gold);
+    color: #033319; /* Dark green text on gold button looks very 'Royal' */
+    box-shadow: 0 4px 15px rgba(197, 174, 174, 0.3);
+    border-radius: 15px;
     border: none;
     font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
+    font-size: 1rem;
+    padding: 10px 20px;
+    cursor: pointer;
 }
 
         .ramadan-text {
@@ -112,20 +132,26 @@
             margin-top: 20px;
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 </head>
 <body>
 
-    <div class="moving-images">
-        <img src="r1.png" class="side-img img-1" alt="Ramadan">
-        <img src="r2.png" class="side-img img-2" alt="Ramadan">
-        <img src="r3.png" class="side-img img-3" alt="Ramadan">
-        <img src="r4.png" class="side-img img-4" alt="Ramadan">
-        <img src="r5.png" class="side-img img-5" alt="Ramadan">
-        </div>
+<div class="moving-images">
+    <img src="r1.png" class="side-img img-1" alt="Ramadan">
+    <img src="r2.png" class="side-img img-2" alt="Ramadan">
+    <img src="r3.png" class="side-img img-3" alt="Ramadan">
+    <img src="r4.png" class="side-img img-4" alt="Ramadan">
+    <img src="r5.png" class="side-img img-5" alt="Ramadan">
+    <img src="r1.png" class="side-img img-6" alt="Ramadan">
+    <img src="r2.png" class="side-img img-7" alt="Ramadan">
+    <img src="r3.png" class="side-img img-8" alt="Ramadan">
+    <img src="r4.png" class="side-img img-9" alt="Ramadan">
+    <img src="r5.png" class="side-img img-10" alt="Ramadan">
+</div>
 
     <div class="container">
         <div id="setupArea">
-            <div class="gift-icon" onclick="showInput()">🎁</div>
+            <div class="gift-icon" onclick="showInput()"><img src="gift.png" alt="gift-icon" width="150px"; height="150px;"></div>
             <h1>ልዩ የረመዳን ስጦታ አለዎት!</h1>
             <p>ለመክፈት ስጦታውን ይጫኑ</p>
         </div>
@@ -143,7 +169,7 @@
                 🌙 ረመዳን ሙባረክ! 🌙<br>
                 አላህ ፆሙንና ዱዓውን ይቀበለን።
             </div>
-            <p>መልካም የረመዳን ወር ይሁንልዎ!</p>
+            <p>መልካም የረመዳን ወር ይሁንልዎ! <br> <br>  በ አንዋር የተዘጋጀ </p>
         </div>
     </div>
 
@@ -172,7 +198,26 @@
             document.getElementById('inputArea').style.display = 'none';
             document.getElementById('messageArea').style.display = 'block';
             document.getElementById('displayName').innerText = "ውድ " + name;
+            var duration = 5 * 1000; // ለ5 ሰከንድ እንዲተኩስ
+    var animationEnd = Date.now() + duration;
+    var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 1000 };
 
+    function randomInRange(min, max) {
+      return Math.random() * (max - min) + min;
+    }
+
+    var interval = setInterval(function() {
+      var timeLeft = animationEnd - Date.now();
+
+      if (timeLeft <= 0) {
+        return clearInterval(interval);
+      }
+
+      var particleCount = 50 * (timeLeft / duration);
+      // ከግራ እና ከቀኝ ተከታትሎ እንዲተኮስ
+      confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
+      confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
+    }, 250);
             // ነሺዳውን ያስጀምራል
             bgMusic.play().catch(error => {
                 console.log("Audio play failed: ", error);
